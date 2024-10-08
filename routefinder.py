@@ -262,7 +262,7 @@ class Application(QMainWindow):
             city = path[-1]  # The last city in the path is the current city
             if city == end_city:
                 # The path is the route from the start city to the end city
-                self.outputbox.setText(' -> '.join(path) + '\n')
+                self.outputbox.setText("<b>Path:</b> " + ' -> '.join(path) + '\n')
 
                 # Total time to run search algorithm
                 end_time = time.perf_counter()
@@ -313,7 +313,7 @@ class Application(QMainWindow):
             city = path[-1]  # The last city in the path is the current city
             if city == end_city:
                 # The path is the route from the start city to the end city
-                self.outputbox.setText(' -> '.join(path) + '\n')
+                self.outputbox.setText("<b>Path:</b> " + ' -> '.join(path) + '\n')
 
                 # Total time to run search algorithm
                 end_time = time.perf_counter()
@@ -365,7 +365,7 @@ class Application(QMainWindow):
                 city, depth = stack.pop()
                 if city == end_city:
                     # The path is the route from the start city to the end city
-                    self.outputbox.setText(' -> '.join(visited) + '\n')
+                    self.outputbox.setText("<b>Path:</b> " + ' -> '.join(visited) + '\n')
 
                     # Total time to run search algorithm
                     end_time = time.perf_counter()
@@ -416,7 +416,7 @@ class Application(QMainWindow):
             (priority, city, path) = heapq.heappop(queue)
             if city == end_city:
                 # The path is the route from the start city to the end city
-                self.outputbox.setText(' -> '.join(path + [end_city]) + '\n')
+                self.outputbox.setText("<b>Path:</b> " + ' -> '.join(path + [end_city]) + '\n')
 
                 # Total time to run search algorithm
                 end_time = time.perf_counter()
@@ -468,7 +468,7 @@ class Application(QMainWindow):
             (priority, city, path) = heapq.heappop(queue)
             if city == end_city:
                 # The path is the route from the start city to the end city
-                self.outputbox.setText(' -> '.join(path + [end_city]) + '\n')
+                self.outputbox.setText("<b>Path:</b> " + ' -> '.join(path + [end_city]) + '\n')
 
                 # Total time to run search algorithm
                 end_time = time.perf_counter()
