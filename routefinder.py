@@ -23,6 +23,7 @@ class Application(QMainWindow):
         self.main_layout = QVBoxLayout(self.central_widget)
         self.resize(550, 165)
 
+        # Sets up the styles for the toolbar
         self.toolbar_light_style = """
             QMenuBar {
                 background-color: #353535;
@@ -59,20 +60,25 @@ class Application(QMainWindow):
         self.createToolBar()
         self.create_widgets()
 
+        # Sets up selected algorith for use with multiple buttons
         self.selected_algorithm = None
+
+        # Parses the data from files. Passes to helper functions.
         self.graph = self.load_graph_from_file(r'CS461-Routes\Adjacencies.txt')
         self.coordinates = self.load_coordinates_from_file(r'CS461-Routes\coordinates.csv')
 
     def load_cities_from_file(self, filename):
+        '''Takes the "Adjacencies.txt file and creates a sorted list of cities.'''
         cities = set()
         with open(filename, 'r') as file:
             for line in file:
                 city1, city2 = line.strip().split()
                 cities.add(city1)
                 cities.add(city2)
-        return sorted(list(cities))  # Convert the set to a sorted list
+        return sorted(list(cities))
     
     def load_graph_from_file(self, filename):
+        '''Takes the "Adjacencies.txt" file and creates a graph.'''
         graph = {}
         with open(filename, 'r') as file:
             for line in file:
@@ -82,10 +88,11 @@ class Application(QMainWindow):
                 if city2 not in graph:
                     graph[city2] = []
                 graph[city1].append(city2)
-                graph[city2].append(city1)  # Comment this line if your graph is directed
+                graph[city2].append(city1)
         return graph
     
     def load_coordinates_from_file(self, filename):
+        '''Takes the "coordinates.csv"  file and returns a sorted row of coordinants for each city.'''
         coordinates = {}
         with open(filename, 'r') as file:
             reader = csv.reader(file)
@@ -95,6 +102,8 @@ class Application(QMainWindow):
         return coordinates
     
     def calculate_distance(self, city1, city2):
+        '''Takes the coordinates object generated from load_coordinates_from_file function and uses the Haversine formula.
+            AI Prompt assisted in the creation of this function as I had no previous knowledge of this formular existing.'''
         lat1, lon1 = self.coordinates[city1]
         lat2, lon2 = self.coordinates[city2]
 
@@ -116,12 +125,14 @@ class Application(QMainWindow):
         return distance
     
     def calculate_total_distance(self, route):
+        '''Takes the route generated from the search algorithms and calculates the total distance of the route.'''
         total_distance = 0
         for i in range(len(route) - 1):
             total_distance += self.calculate_distance(route[i], route[i+1])
         return round(total_distance, 3)
     
     def createStyledMenu(self):
+        '''Sets the stylesheet for the sub-menu items'''
         menu = QMenu(self)
         menu.setStyleSheet("""
             QMenu {
@@ -139,6 +150,7 @@ class Application(QMainWindow):
         return menu
 
     def createToolBar(self):
+        '''Creates the toolbar on the left hand side of the GUI. Displays the available algorithms as menu choices'''
         toolBar = QToolBar(self)
         self.addToolBar(Qt.LeftToolBarArea, toolBar)
         toolBar.setStyleSheet(self.toolbar_light_style)
@@ -182,6 +194,7 @@ class Application(QMainWindow):
         heuristic.setMenu(heuristic_menu)
 
     def create_widgets(self):
+        '''Creates the top level control buttons. Start/end cities. Selected algorithm box. Run button.'''
         # Font Size
         font = QFont()
         font.setPointSize(14)
@@ -238,7 +251,7 @@ class Application(QMainWindow):
 
     # Undirected (blind) brute-force approaches 
     def selectBreadthFirstSearch(self):
-        '''Select the breadth-first search algorithm'''
+        '''Sets the breadth-first search algorithm to run.'''
         self.status_label.setText('Breadth-first Search')
         self.selected_algorithm = self.breadthFirstSearch
 

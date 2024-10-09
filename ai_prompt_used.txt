@@ -1,0 +1,69 @@
+AI Prompt used to assist build process:
+
+calculate_distance function:
+
+1st Prompt:
+
+"I have a list of locations with their coordinates. How can I calculate the distance between two different cities with the provided coordinates?"
+
+Result:
+
+To calculate and display the total distance for the cities visited on the route, you need to have a way to calculate the distance between two cities. If you have the coordinates of the cities, you can use the haversine formula to calculate the distance. If you don't have the coordinates, but have a matrix or a dictionary with the distances, you can use that.
+
+def calculate_total_distance(self, route):
+    total_distance = 0
+    for i in range(len(route) - 1):
+        total_distance += self.calculate_distance(route[i], route[i+1])
+    return total_distance
+
+def calculate_distance(self, city1, city2):
+    # Implement this method based on how you can calculate the distance
+    pass
+
+2nd Prompt:
+
+"Ok, can you explain the Haversine formula? How can I implement that in Python?"
+
+Result:
+
+you can implement the haversine formula:
+
+from math import radians, sin, cos, sqrt, atan2
+
+def calculate_distance(self, city1, city2):
+    lat1, lon1 = self.coordinates[city1]
+    lat2, lon2 = self.coordinates[city2]
+
+    # Convert coordinates to radians
+    lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
+
+    # Haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1-a))
+
+    # Radius of earth in kilometers
+    R = 6371.0
+
+    # Calculate the distance
+    distance = R * c
+
+    return distance
+
+
+Time/memory functionality:
+
+Prompt: 
+
+"What Python libraries can I use to calculate how long a function takes to run and the amount of memory used?"
+
+Result:
+
+To measure and print the total time needed to find the route, you can use the time module. Here's an example of how to do it:
+
+import time
+
+To determine the total memory used, you can use a library like memory_profiler. However, please note that measuring memory usage can be complex and may not always give accurate results, especially for small programs. Here's an example of how to do it:
+
+from memory_profiler import memory_usage
